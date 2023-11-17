@@ -1,4 +1,5 @@
 import { Level } from '#/levels/entities/level.entity';
+import { Reviews } from '#/reviews/entities/reviews.entity';
 import {
   Entity,
   Column,
@@ -8,6 +9,7 @@ import {
   VersionColumn,
   CreateDateColumn,
   ManyToOne,
+  OneToMany,
 } from 'typeorm';
 
 @Entity()
@@ -23,6 +25,15 @@ export class User {
 
   @Column({ default: true })
   isActive: boolean;
+
+  @Column({ unique: true })
+  username: string;
+
+  @Column()
+  password: string;
+
+  @Column()
+  salt: string;
 
   @CreateDateColumn({
     type: 'timestamp with time zone',
@@ -47,4 +58,7 @@ export class User {
 
   @ManyToOne(() => Level, (level) => level.user)
   level: Level;
+
+  @OneToMany(() => Reviews, (reviews) => reviews.user)
+  reviews: Reviews;
 }
